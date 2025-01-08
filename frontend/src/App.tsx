@@ -1,13 +1,14 @@
-import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
-import LoginPage from './layout/LoginPage';
+import ThemeComponent from "./components/ThemeComponent";
+import LogInPage from "./pages/LogIn/LogInPage";
 
-function App() {
+const App = () => {
     return (
-        <MantineProvider>
-            <LoginPage />
-        </MantineProvider>
+        <>
+            <ThemeComponent>
+                <LogInPage />
+            </ThemeComponent>
+        </>
     );
-}
+};
 
 export default App;
