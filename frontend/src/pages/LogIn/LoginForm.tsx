@@ -1,7 +1,14 @@
-import { Flex, TextInput, PasswordInput, Button } from "@mantine/core";
+import {
+    Flex,
+    TextInput,
+    PasswordInput,
+    Button,
+    LoadingOverlay,
+} from "@mantine/core";
 import { CircleUser, RectangleEllipsis } from "lucide-react";
 
 import { useForm } from "@mantine/form";
+import { useState } from "react";
 
 type formData = {
     username: string;
@@ -9,6 +16,8 @@ type formData = {
 };
 
 const LoginForm = () => {
+    const [isLoading, setLoading] = useState(false);
+
     const form = useForm({
         mode: "controlled",
         onSubmitPreventDefault: "always",
@@ -17,14 +26,21 @@ const LoginForm = () => {
             password: "",
         },
         validate: {
-            username: (value) => (value.length < 1 ? "Invalid Username" : null),
-            password: (value) => (value.length < 1 ? "Invalid Password" : null),
+            username: (value) =>
+                value.length <= 0 ? "Invalid Username" : null,
+            password: (value) =>
+                value.length <= 0 ? "Invalid Password" : null,
         },
     });
 
     const onSubmit = (data: formData) => {
-        form.validate();
-        console.log(data);
+        setLoading((prevState) => !prevState);
+        setTimeout(() => {
+            form.validate();
+            console.log(data);
+            setLoading((prevState) => !prevState);
+            form.reset();
+        }, 3000);
     };
 
     const loginIcon = <CircleUser />;
@@ -35,7 +51,12 @@ const LoginForm = () => {
             onSubmit={form.onSubmit((values) => onSubmit(values))}
             onReset={form.onReset}
         >
-            <Flex direction={"column"} mt={"5rem"} gap={"2rem"} w={"25rem"}>
+            <Flex direction={"column"} mt={"3rem"} gap={"2rem"} w={"25rem"}>
+                <LoadingOverlay
+                    visible={isLoading}
+                    overlayProps={{ blur: 2 }}
+                    loaderProps={{ type: "bars" }}
+                />
                 <TextInput
                     key={form.key("username")}
                     size="sm"

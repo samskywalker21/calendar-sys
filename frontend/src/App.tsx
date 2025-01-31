@@ -1,11 +1,11 @@
 import ThemeComponent from "./components/ThemeComponent";
-import LogInPage from "./pages/LogIn/LogInPage";
+import { Outlet } from "react-router";
 
 const App = () => {
     return (
         <>
             <ThemeComponent>
-                <LogInPage />
+                <Outlet />
             </ThemeComponent>
         </>
     );
